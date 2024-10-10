@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: aside/Aside.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: aside/Aside.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useTheme } from "@/components/theme-provider";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Switch } from "@/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ArrowLeftFromLine, Home, Settings, SquarePlus } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
+
+/**
+ * Function to create an aside component which will expand or collapse based on the value of `params.expanded`.
+ *
+ * @param {Object} params - An object containing parameters.
+ * @param {boolean} params.expanded - A boolean indicating whether the aside component is expanded.
+ * @param {function} params.setExpanded - A function to set the expanded state of the aside component.
+ * @returns {ReactElement} Returns a React element representing the aside component.
+ * * @example
+ * //Render a button with the text "Click Me"
+ * &lt;Aside expanded={true} setExpanded={()=>{}} />
+ *
+ */
+function Aside({ expanded, setExpanded }) {
+  const [currentLink, setCurrentLink] = useState("dashboard");
+  const { setTheme, theme } = useTheme();
+  const navigate = useNavigate();
+  return (
+    &lt;aside
+      className={`fixed inset-y-0 left-0 z-10 hidden transition-all duration-300 sm:flex flex-col border-r bg-background  ${
+        expanded ? "w-[9.5rem]" : "w-14"
+      }`}
+    >
+      &lt;nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+        &lt;div
+          href="#"
+          className={`group flex h-9 w-full shrink-0 items-center  justify-center gap-2 rounded-full bg-transparent text-lg font-semibold  md:h-8 md:w-8 md:text-base ${
+            expanded ? "justify-start" : "justify-center"
+          }`}
+        >
+          {theme == "dark" ? (
+            &lt;img
+              src={"./labs_for_dark.png"}
+              alt="Miracle labs logo"
+              className="transition-all h-8 group-hover:rotate-12 aspect-square"
+            />
+          ) : (
+            &lt;img
+              src={"./labs_symbol.png"}
+              alt="Miracle labs logo"
+              className="transition-all h-8 group-hover:rotate-12 aspect-square"
+            />
+          )}
+          &lt;span className={expanded ? " text-nowrap" : "sr-only "}>
+            Miracle Labs
+          &lt;/span>
+        &lt;/div>
+
+        &lt;TooltipProvider>
+          &lt;Tooltip>
+            &lt;TooltipTrigger asChild>
+              &lt;div
+                href="#"
+                onClick={() => {
+                  setCurrentLink("dashboard");
+                  navigate("/");
+                }}
+                className={`flex h-9 w-full  items-center  ${
+                  expanded ? " justify-start " : " justify-center "
+                } ${
+                  currentLink == "dashboard"
+                    ? " text-foreground"
+                    : "text-muted-foreground"
+                } rounded-lg  cursor-pointer transition-colors hover:text-foreground md:h-8 gap-2`}
+              >
+                {expanded ? (
+                  &lt;div className="flex w-full items-center justify-start gap-2 leading-none">
+                    &lt;Home className="h-5 w-5" />
+                    &lt;span>Dashboard&lt;/span>
+                  &lt;/div>
+                ) : (
+                  &lt;>
+                    &lt;Home className="h-5 w-5" />
+                    &lt;span className="sr-only">Dashboard&lt;/span>
+                  &lt;/>
+                )}
+              &lt;/div>
+            &lt;/TooltipTrigger>
+
+            &lt;TooltipContent side="right">Dashboard&lt;/TooltipContent>
+          &lt;/Tooltip>
+        &lt;/TooltipProvider>
+        &lt;TooltipProvider>
+          &lt;Tooltip>
+            &lt;TooltipTrigger asChild>
+              &lt;div
+                href="#"
+                onClick={() => {
+                  setCurrentLink("otherPart");
+                  navigate("/other");
+                }}
+                className={`flex h-9 w-full  items-center  ${
+                  expanded ? "justify-start" : "justify-center"
+                } ${
+                  currentLink == "otherPart"
+                    ? " text-foreground"
+                    : "text-muted-foreground"
+                } rounded-lg cursor-pointer transition-colors hover:text-foreground md:h-8 gap-2`}
+              >
+                {expanded ? (
+                  &lt;div className="flex w-full items-center justify-start gap-2 leading-none">
+                    &lt;SquarePlus className="h-5 w-5" />
+                    &lt;span>Other part&lt;/span>
+                  &lt;/div>
+                ) : (
+                  &lt;>
+                    &lt;SquarePlus className="h-5 w-5" />
+                    &lt;span className="sr-only">Other part&lt;/span>
+                  &lt;/>
+                )}
+              &lt;/div>
+            &lt;/TooltipTrigger>
+
+            &lt;TooltipContent side="right">Other part&lt;/TooltipContent>
+          &lt;/Tooltip>
+        &lt;/TooltipProvider>
+      &lt;/nav>
+      &lt;nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+        &lt;TooltipProvider>
+          &lt;Tooltip>
+            &lt;TooltipTrigger asChild>
+              &lt;div
+                href="#"
+                onClick={() => {
+                  setExpanded(!expanded);
+                }}
+                className={`flex h-9 group w-full  items-center  ${
+                  expanded ? "justify-start" : "justify-center"
+                } rounded-lg  cursor-pointer text-muted-foreground transition-colors hover:text-foreground md:h-8 gap-2`}
+              >
+                &lt;div
+                  className={`flex w-full items-center justify-start gap-5 leading-none ${
+                    !expanded &amp;&amp; " justify-center"
+                  }`}
+                >
+                  &lt;ArrowLeftFromLine
+                    className={`h-5 w-5 transition-all ${
+                      expanded
+                        ? "rotate-180 group-hover:rotate-0"
+                        : "group-hover:rotate-180"
+                    }`}
+                  />
+                  &lt;span className={`${!expanded ? "sr-only" : "not-sr-only"}`}>
+                    {expanded ? "collapse" : "expand"}
+                  &lt;/span>
+                &lt;/div>
+              &lt;/div>
+            &lt;/TooltipTrigger>
+            {expanded ? (
+              &lt;TooltipContent side="right">Collapse&lt;/TooltipContent>
+            ) : (
+              &lt;TooltipContent side="right">Expand&lt;/TooltipContent>
+            )}
+          &lt;/Tooltip>
+        &lt;/TooltipProvider>
+        &lt;Dialog>
+          &lt;DialogTrigger asChild>
+            &lt;div
+              href="#"
+              className={`flex h-9 w-full  items-center  ${
+                expanded ? "justify-start" : "justify-center"
+              } rounded-lg  cursor-pointer text-muted-foreground transition-colors hover:text-foreground md:h-8 gap-2`}
+            >
+              {expanded ? (
+                &lt;div className="flex w-full items-center justify-start gap-5 leading-none">
+                  &lt;Settings className="h-5 w-5" />
+                  &lt;span>Settings&lt;/span>
+                &lt;/div>
+              ) : (
+                &lt;>
+                  &lt;Settings className="h-5 w-5" />
+                  &lt;span className="sr-only">Settings&lt;/span>
+                &lt;/>
+              )}
+            &lt;/div>
+          &lt;/DialogTrigger>
+          &lt;DialogContent className="sm:max-w-[425px]">
+            &lt;DialogHeader>
+              &lt;DialogTitle className="flex  items-center gap-2">
+                Toggle Dark Mode{" "}
+                &lt;Switch
+                  checked={theme == "dark"}
+                  onCheckedChange={(e) => {
+                    if (e) {
+                      setTheme("dark");
+                    } else {
+                      setTheme("light");
+                    }
+                  }}
+                />
+              &lt;/DialogTitle>
+              &lt;DialogDescription>
+                Tap to switch between light and dark themes for enhanced
+                visibility in low-light environments.
+              &lt;/DialogDescription>
+            &lt;/DialogHeader>
+          &lt;/DialogContent>
+        &lt;/Dialog>
+      &lt;/nav>
+    &lt;/aside>
+  );
+}
+
+export default Aside;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Aside">Aside</a></li><li><a href="global.html#Layout">Layout</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Apr 10 2024 21:16:32 GMT+0530 (India Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
